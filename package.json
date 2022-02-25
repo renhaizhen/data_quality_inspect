@@ -1,0 +1,23 @@
+{
+  "name": "data_quality_inspect",
+  "version": "1.0.0",
+  "description": "inspect klines quality . supplement missing datas || check the reasons for the missing",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/renhaizhen/data_quality_inspect.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/renhaizhen/data_quality_inspect/issues"
+  },
+  "homepage": "https://github.com/renhaizhen/data_quality_inspect#readme"
+}
