@@ -23,12 +23,12 @@ async function getKlineSQL(measurement){
     const { time_range ,time_start ,time_end } = query_config;
     const instrument_list = await getInstrumentId();
     const from_to = await getStartEndTime(time_start,time_end,time_range);
-    console.log(from_to)
+    // console.log(from_to)
     const sql_list = [];
     if(instrument_list&&from_to.length){
         _.forEach(from_to,l=>{
             _.forEach(instrument_list,instrument_id=>{
-                const sql = `SELECT "close","instrument_id" FROM "${measurement}" WHERE  instrument_id = '${instrument_id}' and  time >= ${l.from} and time<= ${l.to} limit 5`;
+                const sql = `SELECT "close","instrument_id" FROM "${measurement}" WHERE  instrument_id = '${instrument_id}' and  time >= ${l.from} and time<= ${l.to}`;
                 sql_list.push(sql)
             })
         })
@@ -41,13 +41,14 @@ async function getQueryRow(sql){
     const sqls = await getKlineSQL(measurement);
     var dbL = new dbLink({host:ip,port,database});
     async.mapLimit(sqls, 2, async function(sql) {
+        await new Promise(res => setTimeout(res, 3000));
         let res = await dbL.queryRaw(database,sql);
         if(res&&res.results&&res.results[0].series){
             let handle_data = dbL.getInfluxData(res);
             await getInspectDatas(handle_data)
-            console.log(handle_data)
+            // console.log(handle_data)
         }
-        console.log(res,'......',sql)
+        // console.log(res,'......',sql)
         return
     }, (err, results) => {
         if (err) throw err

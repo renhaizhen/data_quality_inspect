@@ -21,8 +21,10 @@ function judgeLossData(prev_time,next_time){
     const next_timestamp = new Date(next_time).getTime();
     if(next_timestamp-prev_timestamp>60000){//间隔
         console.log(`数据丢失❌ start:${prev_time}-end:${next_time}`);
+    }else{
+        console.log('数据正常')
     }
-    console.log(prev_timestamp,next_timestamp,next_timestamp-prev_timestamp)
+    // console.log(prev_timestamp,next_timestamp,next_timestamp-prev_timestamp)
 }
 //inspect datas
 async function getInspectDatas(datas){
