@@ -1,7 +1,7 @@
 const async = require('async');
 const _ = require('lodash');
 const { db_config ,query_config } = require('./../config');
-const { getStartEndTime } = require('./../utils/transform');
+const { getStartEndTime ,getInspectDatas} = require('./../utils/transform');
 const dbLink = require('./../lib/dblink/influx');
 
 async function getInstrumentId(){
@@ -44,6 +44,7 @@ async function getQueryRow(sql){
         let res = await dbL.queryRaw(database,sql);
         if(res&&res.results&&res.results[0].series){
             let handle_data = dbL.getInfluxData(res);
+            await getInspectDatas(handle_data)
             console.log(handle_data)
         }
         console.log(res,'......',sql)
