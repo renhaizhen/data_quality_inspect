@@ -16,13 +16,14 @@ function getStartEndTime(start,end,interval){
 }
 
 //judge is loss data
-function judgeLossData(prev_time,next_time){
+function judgeLossData(prev_time,next_time,instrument_id){
     const prev_timestamp = new Date(prev_time).getTime();
     const next_timestamp = new Date(next_time).getTime();
     if(next_timestamp-prev_timestamp>60000){//间隔
         console.log(`数据丢失❌ start:${prev_time}-end:${next_time}`);
+        return {instrument_id,prev_time,next_time}
     }else{
-        console.log('数据正常')
+        // console.log('数据正常')
     }
     // console.log(prev_timestamp,next_timestamp,next_timestamp-prev_timestamp)
 }
@@ -30,14 +31,20 @@ function judgeLossData(prev_time,next_time){
 async function getInspectDatas(datas){
     if(datas&&datas.length){
         const len = datas.length;
+        console.log('载入数据正常！',datas.length)
+        const loss_details = []
         _.forEach(datas,(l,i)=>{
             if(i<len-1){
                 const { time , instrument_id} = l;
                 const next_time = datas[i+1]['time'];
-                judgeLossData(time,next_time)
-                console.log(time,instrument_id,i)
+                const loss_info = judgeLossData(time,next_time,instrument_id);
+                if(loss_info!==undefined){
+                    console.log(loss_info,'getInspectDatasgetInspectDatas');
+                    loss_details.push(loss_info)
+                }
             }
         })
+        return loss_details
     }
 }
 module.exports = {
